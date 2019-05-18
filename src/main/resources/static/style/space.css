@@ -1,0 +1,6 @@
+.background {
+    background: url("../images/background.png")100% 100%!important;
+    background-attachment:fixed!important;
+    background-repeat: no-repeat!important;
+    background-position: top left!important;
+}

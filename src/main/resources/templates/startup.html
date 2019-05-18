@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Spring boot</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{../style/space.css}">
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body class="background">
+    <div th:replace="fragments/header :: header"></div>
+    <div class="container">
+        <h1 class="text-success" th:text="'Welcome to the awesome ' + ${name} + '! Let\'s blast off'"></h1>
+        <form th:action="@{'/gotToSingup'}" method="post">
+            <button type="submit" class="btn btn-success">Sure thing! Sing me up!</button>
+        </form>
+    </div>
+</body>
+</html>

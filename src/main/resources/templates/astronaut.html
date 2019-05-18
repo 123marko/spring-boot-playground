@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sing me up!</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/style/space.css}">
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body class="background">
+    <div th:replace="fragments/header :: header"></div>
+    <div class="container" th:if="${astronaut.id == null}">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-success">Singup for space adventure:</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form th:action="@{'/saveAstronaut'}" th:object="${astronaut}" method="post">
+                    <div class="form-group">
+                        <label class="text-success" for="astronautName">Your name:</label>
+                        <input th:field="*{name}" type="text" class="form-control" id="astronautName" aria-describedby="astronautNameHelp" placeholder="No blanks please">
+                        <small id="astronautNameHelp" class="form-text text-success">You shall be remembered.</small>
+                        <span class="help-block" th:if="${#fields.hasErrors('name')}">
+                            <ul>
+                                <li class="text-danger" th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+                            </ul>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-success" for="astronautAge">Your age:</label>
+                        <input th:field="*{age}" type="number" min="1" max="99" class="form-control" id="astronautAge" aria-describedby="astronautAgeHelp" placeholder="From 1 till infinity (99 :))">
+                        <small id="astronautAgeHelp" class="form-text text-success">Think of a number.</small>
+                        <span class="help-block" th:if="${#fields.hasErrors('age')}">
+                            <ul>
+                                <li class="text-danger" th:each="error : ${#fields.errors('age')}" th:text="${error}"></li>
+                            </ul>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-success" for="astronautGender">Gender:</label>
+                        <select id="astronautGender" th:field="*{gender}"  class="form-control">
+                            <option th:each="genderValue : ${T(com.zuehlke.apollo.domain.enums.Gender).values()}"
+                                    th:value="${genderValue.name()}"
+                                    th:text="${genderValue.name()}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-success" for="astronautEmail">Email address</label>
+                        <input th:field="*{email}" type="email" class="form-control" id="astronautEmail" aria-describedby="astronautEmailHelp" placeholder="Enter email">
+                        <small id="astronautEmailHelp" class="form-text text-success">Get the news feed and stuff.</small>
+                        <span class="help-block" th:if="${#fields.hasErrors('email')}">
+                            <ul>
+                                <li class="text-danger" th:each="error : ${#fields.errors('email')}" th:text="${error}"></li>
+                            </ul>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                        <p>Please correct your input</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container" th:unless="${astronaut.id == null}">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-success">Our hero:</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form th:object="${astronaut}">
+                    <div class="form-group">
+                        <label class="text-success" for="astronautNameReadOnly">Your name:</label>
+                        <input readonly th:field="${astronaut.name}" type="text" class="form-control" id="astronautNameReadOnly">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-success" for="astronautAgeReadOnly">Your age:</label>
+                        <input readonly th:field="${astronaut.age}" type="number" class="form-control" id="astronautAgeReadOnly">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-success" for="astronautGenderReadOnly">Gender:</label>
+                        <input readonly th:field="${astronaut.gender}" type="text" class="form-control" id="astronautGenderReadOnly">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-success" for="astronautEmailReadOnly">Email address</label>
+                        <input readonly th:field="${astronaut.email}" type="email" class="form-control" id="astronautEmailReadOnly">
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+                <img th:if="${astronaut.gender.name() == 'FEMALE'}" th:src="@{/images/female.png}" />
+                <img th:unless="${astronaut.gender.name() == 'FEMALE'}" th:src="@{/images/male.png}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a th:href="@{/launchControl}" class="btn btn-info" role="button">Go to Launch Control</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
